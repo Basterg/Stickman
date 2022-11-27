@@ -12,11 +12,15 @@ public class MainMenuCanvasController : MonoBehaviour {
     [SerializeField] Button backButton;
     [SerializeField] GameObject gameNameTextGo;
 
+    [SerializeField] GameObject AuthGo;
+    [SerializeField] Button authButton;
+
     void Start() {
         playButton.onClick.AddListener(OpenEpisodes);
         episodeOneButton.onClick.AddListener(OpenEpisodeOneMissions);
         backButton.onClick.AddListener(Back);
         gameNameTextGo.SetActive(true);
+        authButton.onClick.AddListener(MyObj.Instance.Auth);
     }
 
     void OpenEpisodes() {
@@ -37,7 +41,12 @@ public class MainMenuCanvasController : MonoBehaviour {
         backButton.gameObject.SetActive(false);
     }
 
-
-
-    
+    void Update() {
+        if (MyObj.isUnauthMode && !AuthGo.activeSelf) {
+            // Сделать активным кнопку с открытием уведомления и кнопкой для вызова авторизации
+            AuthGo.SetActive(true);
+        } else if(AuthGo.activeSelf && !MyObj.isUnauthMode) {
+            AuthGo.SetActive(false);
+        }
+    }
 }

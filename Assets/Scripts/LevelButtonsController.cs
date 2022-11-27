@@ -9,11 +9,13 @@ public class LevelButtonsController : MonoBehaviour {
     int countOfUnlockedLevels;
 
     void Start() {
-        countOfUnlockedLevels = GlobalLevelsInfo.GetCountOfUnlockedLevels(); // мб тут чёто не так
+        countOfUnlockedLevels = GlobalLevelsInfo.GetCountOfUnlockedLevels(); // мб тут чёто не так .. мб мб
 
         for (int i = 0; i < countOfUnlockedLevels; i++) {
             levelButtonControllers[i].UnblockButtonAndSetStars();
         }
+
+        
     }
 
     

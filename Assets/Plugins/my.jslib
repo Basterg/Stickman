@@ -1,16 +1,23 @@
 mergeInto(LibraryManager.library, {
 
-  	Hello: function () {
-    	window.alert("Hello, world!");
-    	console.log("Hello, world!");
-  	},
+    AuthExtern: function() {
+        auth();
+    },
 
+    CheckPlayerModeExtern: function() {
+        return chekPlayerMode();
+    },
+    
 	SaveDataExtern: function(data) {
     	var dataString = UTF8ToString(data);
-    	var myobj = JSON.parse(dataString);
-    	player.setData(myobj);
+        var myobj = JSON.parse(dataString);
+        player.setData(myobj);
         console.log("Data saved!");
   	},
+
+    LoadDataExtern: function() {
+        loadData();
+    },
 
     SetToLeaderboard: function(value){
         setToLeaderboard(value);

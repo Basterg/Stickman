@@ -1,13 +1,18 @@
+using System.Runtime.InteropServices;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 
 public class MyObj : MonoBehaviour {
 
+    [SerializeField] bool isOfflineMode;
+
     public static MyObj Instance;
+
+    [SerializeField] GameObject AuthGO;
 
     [DllImport("__Internal")]
     private static extern void SetToLeaderboard(float data);
@@ -18,8 +23,24 @@ public class MyObj : MonoBehaviour {
     [DllImport("__Internal")]
     private static extern void ShowIntAdvExtern();
 
+    [DllImport("__Internal")]
+    private static extern void LoadDataExtern();
+
+    [DllImport("__Internal")]
+    private static extern void AuthExtern();
+
+    [DllImport("__Internal")]
+    private static extern bool CheckPlayerModeExtern();
+
 
     bool isSoundOff;
+
+    public static bool isUnauthMode { get; private set; }
+
+    public bool CheckPlayerMode() {
+        return CheckPlayerModeExtern();
+    }
+
 
     public void RateGame() {
         RateGameExtern();
@@ -29,15 +50,26 @@ public class MyObj : MonoBehaviour {
         ShowIntAdvExtern();
     }
 
+    public void LoadData() {
+        if (!isUnauthMode) {
+            LoadDataExtern();
+        } 
+    }
+
+    public void SetUnauthMode() {
+        isUnauthMode = true;
+    }
+
+    public void SetAuthMode() { // Используется методом из индекса после успешной авторизации - меняет флаг и загружает
+        isUnauthMode = false;
+        LoadData(); // Возможно черз корутину
+    }
+
     public void SetPlayerInfo(string value) {
         GlobalLevelsInfo.InitGlobalLevelsInfoIfNotIsInit();
 
         if (value != null) {
             GlobalLevelsInfo.SetGlobalInfoByLoadedInfo(JsonUtility.FromJson<SerializableList<GlobalLevelState>>(value));
-        }
-
-        if (GlobalLevelsInfo.GetCountOfUnlockedLevels() < 1) { // для не авториззованных
-            GlobalLevelsInfo.AddLevelToUnlockedLevelsList();
         }
     }
 
@@ -68,24 +100,37 @@ public class MyObj : MonoBehaviour {
     }
 
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
+    private void Awake() {
+        if (Instance == null) {
             transform.parent = null;
             DontDestroyOnLoad(gameObject);
             Instance = this;
+            GlobalLevelsInfo.InitGlobalLevelsInfoIfNotIsInit(); // инит первоначальный
+            StartCoroutine(CheckPlayerModeAndLoadData()); 
             
-            
-        }
-        else
-        {
+        } else {
             Destroy(gameObject);
         }
     }
 
+    IEnumerator CheckPlayerModeAndLoadData() {
+        yield return new WaitUntil(CheckPlayerMode);
+        LoadData();
+    }
+
     public void ResetData() {
         GlobalLevelsInfo.ResetData();
+    }
+
+    void Start() {
         
+    }
+
+    void Update() {
+        
+    }
+
+    public void Auth() { // Используется кнопкой ауфа
+        AuthExtern();
     }
 }

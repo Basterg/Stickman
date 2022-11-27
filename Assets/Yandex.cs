@@ -5,7 +5,7 @@ using UnityEngine;
 public class Yandex : MonoBehaviour {
     
     void Start() {
-        GlobalLevelsInfo.InitGlobalLevelsInfoIfNotIsInit();
+        
     }
 
 }

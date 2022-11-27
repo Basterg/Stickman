@@ -25,8 +25,10 @@ public static class GlobalLevelsInfo {
     }
     
     public static void SaveData() {
-        string jsonStringLevels = JsonUtility.ToJson(globalInfo);
-        SaveDataExtern(jsonStringLevels);
+        if (!MyObj.isUnauthMode) {
+            string jsonStringLevels = JsonUtility.ToJson(globalInfo);
+            SaveDataExtern(jsonStringLevels);
+        }
     }
 
     public static float GetSumScore() {
