@@ -1,11 +1,15 @@
 mergeInto(LibraryManager.library, {
 
     AuthExtern: function() {
-        auth();
+        return auth();
     },
 
     CheckPlayerModeExtern: function() {
-        return chekPlayerMode();
+        return cheсkPlayerMode();
+    },
+
+    CheckPaymentsExtern: function() {
+        CheckPayments();
     },
     
 	SaveDataExtern: function(data) {
@@ -33,6 +37,10 @@ mergeInto(LibraryManager.library, {
 
     ShowAdvForFreePowerUpPackExtern: function() {
         ShowAdvForFreePowerUpPack();
+    },
+
+    ShowAdvForGiftExtern: function() {
+        ShowAdvForGift();
     },
 
     RateGameExtern: function() {

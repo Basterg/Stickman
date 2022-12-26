@@ -32,19 +32,20 @@ public class ButtonLevelController : MonoBehaviour {
     void Start() {
         levelButton.onClick.AddListener(OpenLevel);
         ChekBonusesStatusForActivateAlerts();
-
     }
 
     void ChekBonusesStatusForActivateAlerts() {
         if (GlobalLevelsInfo.GetCountOfUnlockedLevels() > 2) {
-            if (!GlobalLevelsInfo.GetFreeMoneyTakenStatus(numberOfLevel)) {
-                freeMoneyAlert.SetActive(true);
-            }
-            if (!GlobalLevelsInfo.GetFreePackTakenStatus(numberOfLevel)) {
-                freePackAlert.SetActive(true);
-            }
-            if (!GlobalLevelsInfo.GetBonusMoneyTakenStatus(numberOfLevel)) {
-                bonusMoneyAlert.SetActive(true);
+            if (GlobalLevelsInfo.GetCountOfUnlockedLevels() >= numberOfLevel) { // починил но нужен реф
+                if (!GlobalLevelsInfo.GetFreeMoneyTakenStatus(numberOfLevel)) {
+                    freeMoneyAlert.SetActive(true);
+                }
+                if (!GlobalLevelsInfo.GetFreePackTakenStatus(numberOfLevel)) {
+                    freePackAlert.SetActive(true);
+                }
+                if (!GlobalLevelsInfo.GetBonusMoneyTakenStatus(numberOfLevel)) {
+                    bonusMoneyAlert.SetActive(true);
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Runtime.InteropServices;
 
 public class MainMenuCanvasController : MonoBehaviour {
 
@@ -23,10 +24,16 @@ public class MainMenuCanvasController : MonoBehaviour {
         authButton.onClick.AddListener(MyObj.Instance.Auth);
     }
 
+    [DllImport("__Internal")]
+    private static extern void CheckPaymentsExtern(); // Возможно переделать
+
     void OpenEpisodes() {
         episodesUIGO.SetActive(true);
         playButtonGO.SetActive(false);
         gameNameTextGo.SetActive(false);
+        if (!MyObj.isUnauthMode) {
+            CheckPaymentsExtern();
+        }
     }
 
     void OpenEpisodeOneMissions() {
@@ -42,11 +49,17 @@ public class MainMenuCanvasController : MonoBehaviour {
     }
 
     void Update() {
-        if (MyObj.isUnauthMode && !AuthGo.activeSelf) {
-            // Сделать активным кнопку с открытием уведомления и кнопкой для вызова авторизации
-            AuthGo.SetActive(true);
-        } else if(AuthGo.activeSelf && !MyObj.isUnauthMode) {
-            AuthGo.SetActive(false);
+        // if (MyObj.isUnauthMode && !AuthGo.activeSelf) {
+        //     // Сделать активным кнопку с открытием уведомления и кнопкой для вызова авторизации
+        //     AuthGo.SetActive(true);
+        // } else if(AuthGo.activeSelf && !MyObj.isUnauthMode) {
+        //     AuthGo.SetActive(false);
+        // }
+
+        if (MyObj.isReadyToCheckAuth) {
+            if (!MyObj.isChekingAuth && MyObj.isUnauthMode) {
+                StartCoroutine(MyObj.Instance.CheckPlayerModeAndLoadData());
+            }
         }
     }
 }

@@ -19,6 +19,7 @@ public class GlobalLevelState {
     public int money;
     public int starsMoney;
     public PowerUpsCount powerUpsCount;
+    public GiftStatuses giftStatuses;
 }
 
 [System.Serializable]
@@ -28,4 +29,11 @@ public class PowerUpsCount {
     public int earthquakePowerUpCount = 0;
     public int slingshotPowerUpCount = 0;
     public int bombermanPowerUpCount = 0;
+}
+
+
+[System.Serializable]
+public class GiftStatuses {
+    public bool isLevelFiveGiftIsTaken = false;
+    public bool isLevelSevenGiftIsTaken = false;
 }

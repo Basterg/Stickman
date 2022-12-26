@@ -61,7 +61,13 @@ public class LevelCanvasController : MonoBehaviour {
     [SerializeField] Button buySecondMoneyPack;
     [SerializeField] Button buyThirdMoneyPack;
 
+    [SerializeField] GameObject firstMoneyPackGO;
+    [SerializeField] GameObject secondMoneyPackGO;
+    [SerializeField] GameObject thirdMoneyPackGO;
 
+    [SerializeField] GameObject giftGO;
+    [SerializeField] Button giftButton;
+    
     [SerializeField] GameObject blockUIForPause;
 
     
@@ -76,8 +82,10 @@ public class LevelCanvasController : MonoBehaviour {
 
     public void TakeMoneyBonusAfterWatchAD() {
         moneyBonusGO.SetActive(false);
-        GlobalLevelsInfo.AddMoney(levelState.GetCountOfMoneyOnLevel());
+        var bonusMoneyCount = levelState.GetCountOfMoneyOnLevel() * 3;
+        GlobalLevelsInfo.AddMoney(bonusMoneyCount);
         GlobalLevelsInfo.SetMoneyTakenBonusStatusToTrue(levelNumber);
+        GlobalLevelsInfo.SaveData();
     }
 
     void AddMoneyByAD() {
@@ -86,6 +94,11 @@ public class LevelCanvasController : MonoBehaviour {
     
 
     void Start() {
+        if (MyObj.isUnauthMode) {
+            firstMoneyPackGO.SetActive(false);
+            secondMoneyPackGO.SetActive(false);
+            thirdMoneyPackGO.SetActive(false);
+        }
         
 
         levelState = FindObjectOfType<LevelState>();
@@ -135,8 +148,42 @@ public class LevelCanvasController : MonoBehaviour {
             alertInShopFreeMoney.SetActive(true);
         }
 
+
+        CheckGiftConditionsAndStatus();
+
         MyObj.Instance.ShowIntAdv();
     }
+
+    void CheckGiftConditionsAndStatus() {
+        if (levelNumber == 5) {
+            if (!GlobalLevelsInfo.GetGiftStatuses().isLevelFiveGiftIsTaken) {
+                giftGO.SetActive(true);
+            }
+        }
+
+        if (levelNumber == 7) {
+            if (!GlobalLevelsInfo.GetGiftStatuses().isLevelSevenGiftIsTaken) {
+                giftGO.SetActive(true);
+            }
+        }
+
+        giftButton?.onClick.AddListener(AddGiftMoneyByAdd);
+    }
+
+    [DllImport("__Internal")]
+    private static extern void ShowAdvForGiftExtern();
+
+    void AddGiftMoneyByAdd() {
+        ShowAdvForGiftExtern();
+    }
+
+    void TakeGiftMoney() {
+        giftGO.SetActive(false);
+        GlobalLevelsInfo.AddMoney(10000); // !
+        GlobalLevelsInfo.SetGiftStatusToTrue(levelNumber);
+        GlobalLevelsInfo.SaveData();
+    }
+
 
     [DllImport("__Internal")]
     private static extern void BuyFirstMoneyPackExtern();
@@ -303,6 +350,7 @@ public class LevelCanvasController : MonoBehaviour {
         isNextLevelBlocked = false;
         levelLock.SetActive(false);
         GlobalLevelsInfo.AddLevelToUnlockedLevelsList();
+        GlobalLevelsInfo.SaveData(); // Сохраняем что левел открыт, потому что игрок может не стартануть некст левел
     }
 
     public bool GetLevelBlockStatus() {
@@ -313,7 +361,7 @@ public class LevelCanvasController : MonoBehaviour {
     [SerializeField] GameObject levelLock;
 
     public void OPenWinLevelUI() {
-        if (levelNumber > 3) {
+        if (levelNumber > 4) {
             MyObj.Instance.RateGame();
         }
 

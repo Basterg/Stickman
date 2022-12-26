@@ -73,7 +73,7 @@ public class PowerUpsController : MonoBehaviour {
     }
 
     void ACtivateEarthquakePowerUp() {
-        if (powerUpsCount.earthquakePowerUpCount > 0) {
+        if (powerUpsCount.earthquakePowerUpCount > 0 && !floorShake.isEarthquakeIsActive) {
             StartCoroutine(floorShake.ActivateEarthquakePowerUp());
             GlobalLevelsInfo.SpendEarthquakePowerUp();
         }

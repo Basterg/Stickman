@@ -45,6 +45,7 @@ public class FloorShake : MonoBehaviour {
         //enable shaking and setting power
         shakeOn = true;
         shakePower = sPower;
+        isEarthquakeIsActive = true;
     }
  
     // shake off
@@ -55,7 +56,11 @@ public class FloorShake : MonoBehaviour {
  
         // set original position after 
         transform.position = originPosition;
+
+        isEarthquakeIsActive = false;
     }
+
+    public bool isEarthquakeIsActive { get; private set; }
 
     public IEnumerator ActivateEarthquakePowerUp() {
         ShakeCameraOn(0.5f);

@@ -20,6 +20,20 @@ public static class GlobalLevelsInfo {
     //     LoadExtern();
     // }
 
+    public static GiftStatuses GetGiftStatuses() {
+        return globalInfo.giftStatuses;
+    }
+
+    public static void SetGiftStatusToTrue(int levelNumber) {
+        if (levelNumber == 5) {
+            globalInfo.giftStatuses.isLevelFiveGiftIsTaken = true;
+        }
+
+        if (levelNumber == 7) {
+            globalInfo.giftStatuses.isLevelSevenGiftIsTaken = true;
+        }
+    }
+
     public static PowerUpsCount GetPowerUpsCount() {
         return globalInfo.powerUpsCount;
     }
@@ -137,9 +151,8 @@ public static class GlobalLevelsInfo {
     }
 
     public static void ResetData() {
-        isInit = false;
-        InitGlobalLevelsInfoIfNotIsInit();
-        SaveData();
+        string jsonStringLevels = JsonUtility.ToJson("");
+        SaveDataExtern(jsonStringLevels);
     }
 
     static bool GetInitStatus() {

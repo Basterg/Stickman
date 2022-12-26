@@ -27,7 +27,7 @@ public class MyObj : MonoBehaviour {
     private static extern void LoadDataExtern();
 
     [DllImport("__Internal")]
-    private static extern void AuthExtern();
+    private static extern bool AuthExtern();
 
     [DllImport("__Internal")]
     private static extern bool CheckPlayerModeExtern();
@@ -37,9 +37,11 @@ public class MyObj : MonoBehaviour {
 
     public static bool isUnauthMode { get; private set; }
 
-    public bool CheckPlayerMode() {
-        return CheckPlayerModeExtern();
+    public void CheckPlayerMode() {
+        isPlayerModeChecked = CheckPlayerModeExtern();
     }
+
+    bool isPlayerModeChecked;
 
 
     public void RateGame() {
@@ -50,11 +52,11 @@ public class MyObj : MonoBehaviour {
         ShowIntAdvExtern();
     }
 
-    public void LoadData() {
-        if (!isUnauthMode) {
-            LoadDataExtern();
-        } 
-    }
+    // public void LoadData() {
+    //     if (!isUnauthMode) {
+    //         LoadDataExtern();
+    //     } 
+    // }
 
     public void SetUnauthMode() {
         isUnauthMode = true;
@@ -62,25 +64,38 @@ public class MyObj : MonoBehaviour {
 
     public void SetAuthMode() { // Используется методом из индекса после успешной авторизации - меняет флаг и загружает
         isUnauthMode = false;
-        LoadData(); // Возможно черз корутину
+        //LoadData(); // Возможно черз корутину // пока что вырубил, вынес в ЧекМод в индекс и убрал ТРУ в конце чекМода
     }
 
     public void SetPlayerInfo(string value) {
-        GlobalLevelsInfo.InitGlobalLevelsInfoIfNotIsInit();
+        GlobalLevelsInfo.InitGlobalLevelsInfoIfNotIsInit(); // инит первоначальный для авторизированных
 
-        if (value != null) {
+        if (value != "") {
             GlobalLevelsInfo.SetGlobalInfoByLoadedInfo(JsonUtility.FromJson<SerializableList<GlobalLevelState>>(value));
         }
+
+        if (GlobalLevelsInfo.GetCountOfUnlockedLevels() < 1) {
+            GlobalLevelsInfo.AddLevelToUnlockedLevelsList();
+        }
+
+        OnLoad?.Invoke();
+    }
+
+    public void ResetData() {
+        GlobalLevelsInfo.ResetData(); // 1
     }
 
     public void AddMoneyForFirstMoneyPack() {
         GlobalLevelsInfo.AddMoney(20000);
+        GlobalLevelsInfo.SaveData();
     }
     public void AddMoneyForSecondMoneyPack() {
         GlobalLevelsInfo.AddMoney(50000);
+        GlobalLevelsInfo.SaveData();
     }
     public void AddMoneyForThirdMoneyPack() {
         GlobalLevelsInfo.AddMoney(150000);
+        GlobalLevelsInfo.SaveData();
     }
 
     public bool GetSoundOffStatus() {
@@ -96,7 +111,9 @@ public class MyObj : MonoBehaviour {
     }
 
     public void SetScoreToLeaderBoard() {
-        SetToLeaderboard(GlobalLevelsInfo.GetSumScore());
+        if (!isUnauthMode) {
+            SetToLeaderboard(GlobalLevelsInfo.GetSumScore());
+        }
     }
 
 
@@ -105,22 +122,30 @@ public class MyObj : MonoBehaviour {
             transform.parent = null;
             DontDestroyOnLoad(gameObject);
             Instance = this;
-            GlobalLevelsInfo.InitGlobalLevelsInfoIfNotIsInit(); // инит первоначальный
-            StartCoroutine(CheckPlayerModeAndLoadData()); 
-            
+
+            StartCoroutine(CheckPlayerModeAndLoadData());
+
+            GlobalLevelsInfo.InitGlobalLevelsInfoIfNotIsInit();
+            if (GlobalLevelsInfo.GetCountOfUnlockedLevels() < 1) {
+                GlobalLevelsInfo.AddLevelToUnlockedLevelsList();
+            } 
         } else {
             Destroy(gameObject);
         }
     }
 
-    IEnumerator CheckPlayerModeAndLoadData() {
-        yield return new WaitUntil(CheckPlayerMode);
-        LoadData();
+    public static bool isReadyToCheckAuth { get; private set; }
+
+    public IEnumerator CheckPlayerModeAndLoadData() { // Может редуцировать
+        isChekingAuth = true;
+        CheckPlayerMode();
+        yield return new WaitUntil(() => isPlayerModeChecked);
+        isReadyToCheckAuth = true;
+        isChekingAuth = false;
+        isPlayerModeChecked = false;
     }
 
-    public void ResetData() {
-        GlobalLevelsInfo.ResetData();
-    }
+    public static bool isChekingAuth { get; private set; }
 
     void Start() {
         
@@ -130,7 +155,17 @@ public class MyObj : MonoBehaviour {
         
     }
 
+    public delegate void LoadEvent();
+    public static event LoadEvent OnLoad;
+
     public void Auth() { // Используется кнопкой ауфа
-        AuthExtern();
+        StartCoroutine(AuthAndUpdate());
+    }
+
+    IEnumerator AuthAndUpdate() {
+        yield return new WaitUntil(AuthExtern);
+        if (!isUnauthMode) {
+            OnLoad?.Invoke();
+        }
     }
 }

@@ -2723,25 +2723,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 41062871728029820, guid: 7a60960c9c56b5c4eaa8b7fbfac500a9, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.020858765
-      objectReference: {fileID: 0}
-    - target: {fileID: 1919881267178450498, guid: 7a60960c9c56b5c4eaa8b7fbfac500a9, type: 3}
-      propertyPath: powerUpsGO
-      value: 
-      objectReference: {fileID: 662323861}
-    - target: {fileID: 3993336044559091800, guid: 7a60960c9c56b5c4eaa8b7fbfac500a9, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.28108215
-      objectReference: {fileID: 0}
     - target: {fileID: 8607745138742914562, guid: 7a60960c9c56b5c4eaa8b7fbfac500a9, type: 3}
       propertyPath: m_Name
       value: LevelCanvasController
-      objectReference: {fileID: 0}
-    - target: {fileID: 8607745138742914562, guid: 7a60960c9c56b5c4eaa8b7fbfac500a9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8607745138742914622, guid: 7a60960c9c56b5c4eaa8b7fbfac500a9, type: 3}
       propertyPath: m_Pivot.x
@@ -2856,11 +2840,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &662323861 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8200145014914262688, guid: 7a60960c9c56b5c4eaa8b7fbfac500a9, type: 3}
-  m_PrefabInstance: {fileID: 662323857}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &673984571 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1407717779894566171, guid: 1a163e46774148b4785b215d2323c0c9, type: 3}
