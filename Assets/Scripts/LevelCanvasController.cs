@@ -70,7 +70,12 @@ public class LevelCanvasController : MonoBehaviour {
     
     [SerializeField] GameObject blockUIForPause;
 
+    [SerializeField] GameObject gameProgressSavingWarningWindow;
+    [SerializeField] Button closeGameProgressSavingWarningWindow;
+    [SerializeField] GameObject uiBlockerForConfirmationWindow;
     
+    [SerializeField] GameObject bomberGiftGO;
+    [SerializeField] Button bomberGiftButton;
 
     
     LevelState levelState;
@@ -115,6 +120,7 @@ public class LevelCanvasController : MonoBehaviour {
         openPowerUpsShop.onClick.AddListener(OpenPowerUpsShop);
         openMoneyShop.onClick.AddListener(OpenMoneyShop);
         backButton.onClick.AddListener(BackActions);
+        closeGameProgressSavingWarningWindow.onClick.AddListener(CloseGameProgressWarningWindow);
 
         levelNumber = SceneManager.GetActiveScene().buildIndex;
 
@@ -154,20 +160,39 @@ public class LevelCanvasController : MonoBehaviour {
         MyObj.Instance.ShowIntAdv();
     }
 
+    void CloseGameProgressWarningWindow() {
+        gameProgressSavingWarningWindow.SetActive(false);
+        uiBlockerForConfirmationWindow.SetActive(false);
+    }
+
     void CheckGiftConditionsAndStatus() {
+        GiftStatuses giftStatuses = GlobalLevelsInfo.GetGiftStatuses();
+
         if (levelNumber == 5) {
-            if (!GlobalLevelsInfo.GetGiftStatuses().isLevelFiveGiftIsTaken) {
+            if (!giftStatuses.isLevelFiveGiftIsTaken) {
                 giftGO.SetActive(true);
             }
         }
 
         if (levelNumber == 7) {
-            if (!GlobalLevelsInfo.GetGiftStatuses().isLevelSevenGiftIsTaken) {
+            if (!giftStatuses.isLevelSevenGiftIsTaken) {
                 giftGO.SetActive(true);
             }
         }
 
+        if (GlobalLevelsInfo.GetCountOfUnlockedLevels() > 5 && !giftStatuses.isBomberGiftIsTaken) {
+            bomberGiftGO.SetActive(true);
+            bomberGiftButton.onClick.AddListener(TakeBomberGift);
+        }
+
         giftButton?.onClick.AddListener(AddGiftMoneyByAdd);
+    }
+
+    void TakeBomberGift() {
+        // показать туториал дял бомбера окном с кнопкой ок
+        GlobalLevelsInfo.SetBomberGiftStatusToTrue();
+        bomberGiftGO.SetActive(false);
+        GlobalLevelsInfo.AddDesiredCountOfBombermanPowerUp(1);
     }
 
     [DllImport("__Internal")]
@@ -361,7 +386,7 @@ public class LevelCanvasController : MonoBehaviour {
     [SerializeField] GameObject levelLock;
 
     public void OPenWinLevelUI() {
-        if (levelNumber > 4) {
+        if (levelNumber > 10) {
             MyObj.Instance.RateGame();
         }
 
@@ -415,6 +440,11 @@ public class LevelCanvasController : MonoBehaviour {
             // GlobalLevelsInfo.CheckIsNewScoreAndStarsIsBiggerThanOld(levelNumber, finalScore, starsCount);
             // сделать правильное отображение звёзд и ещё сделать так что бы сначала показылись старое количество а потом новое
             // Баг с новым рекордом - Вроде исправлен?
+        }
+
+        if (MyObj.isUnauthMode) {
+            gameProgressSavingWarningWindow.SetActive(true);
+            uiBlockerForConfirmationWindow.SetActive(true);
         }
         
         GlobalLevelsInfo.SaveData();

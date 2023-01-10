@@ -20,6 +20,14 @@ public static class GlobalLevelsInfo {
     //     LoadExtern();
     // }
 
+    public static GiftRoadInfo GetGiftRoadInfo() {
+        return globalInfo.giftRoadInfo;
+    }
+
+    public static void SetGiftRoadInfo(GiftRoadInfo giftRoadInfo) {
+        globalInfo.giftRoadInfo = giftRoadInfo;
+    }
+
     public static GiftStatuses GetGiftStatuses() {
         return globalInfo.giftStatuses;
     }
@@ -32,6 +40,10 @@ public static class GlobalLevelsInfo {
         if (levelNumber == 7) {
             globalInfo.giftStatuses.isLevelSevenGiftIsTaken = true;
         }
+    }
+
+    public static void SetBomberGiftStatusToTrue() {
+        globalInfo.giftStatuses.isBomberGiftIsTaken = true;
     }
 
     public static PowerUpsCount GetPowerUpsCount() {
@@ -145,6 +157,8 @@ public static class GlobalLevelsInfo {
             globalInfo = new SerializableList<GlobalLevelState>();
             globalInfo.listOfLevelStates = new List<GlobalLevelState>();
             globalInfo.powerUpsCount = new PowerUpsCount();
+            globalInfo.giftStatuses = new GiftStatuses();
+            globalInfo.giftRoadInfo = new GiftRoadInfo();
             AddLevelToUnlockedLevelsList();
             isInit = true;
         }

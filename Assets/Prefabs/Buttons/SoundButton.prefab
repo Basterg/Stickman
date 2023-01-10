@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6867787134128815816}
   - component: {fileID: 6816575821341372324}
   - component: {fileID: 3641950532600503025}
+  - component: {fileID: -3675804459983848123}
   m_Layer: 5
   m_Name: SoundButton
   m_TagString: Untagged
@@ -68,7 +69,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cd3279355e2052e42b8c6f927af3d152, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -147,6 +148,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundBlockImage: {fileID: 6841809993790911086}
+--- !u!114 &-3675804459983848123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325605302455032996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9cd4ab020903cb408f4f20a664cf3ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteAtlas: {fileID: 4343727234628468602, guid: 82fdea3a34bfe934784fe66cbb0a6539, type: 2}
+  spriteName: Sound Button
+  isForUI: 1
 --- !u!1 &7537548478671575525
 GameObject:
   m_ObjectHideFlags: 0

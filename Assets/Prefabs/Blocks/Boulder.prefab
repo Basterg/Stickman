@@ -82,7 +82,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.15, y: 3.26}
+  m_Size: {x: 1.2304688, y: 1.2753036}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -105,8 +105,8 @@ MonoBehaviour:
   innerSmokeBigParticleSystem: {fileID: 8158845562654577106}
   smokeSmallParticleSystem: {fileID: 3006491611590272585, guid: f04144c2a3164b049a9c28880fdaef7c, type: 3}
   destroyingPointsParticleSystem: {fileID: 2574817709441545137, guid: 77bf870beab35b342b1bff3bc6650c87, type: 3}
-  breakAudio: {fileID: 8540278660693088238}
-  hitAudio: {fileID: 1117389542425619450}
+  breakAudioContainer: {fileID: 8802206819712422597}
+  hitAudioContainer: {fileID: 390920521842290944}
   blockType: 2
 --- !u!50 &4392797457102507393
 Rigidbody2D:
@@ -146,8 +146,8 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.2304688, y: 1.2734375}
-    newSize: {x: 3.15, y: 3.26}
+    oldSize: {x: 1.2304688, y: 1.2753036}
+    newSize: {x: 1.2304688, y: 1.2753036}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -272,11 +272,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3387040869771609611, guid: 9e49969d46e02304ab481609b04b4016, type: 3}
   m_PrefabInstance: {fileID: 2147832252881728970}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &1117389542425619450 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 1319380776959581744, guid: 9e49969d46e02304ab481609b04b4016, type: 3}
+--- !u!114 &390920521842290944 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -7448260913876597558, guid: 9e49969d46e02304ab481609b04b4016, type: 3}
   m_PrefabInstance: {fileID: 2147832252881728970}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4efc8348c2646eb458763c0b069115c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3127811141206857508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -339,11 +345,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2473354749161843278, guid: c06fd40a388c3594a9d12d3710ab2925, type: 3}
   m_PrefabInstance: {fileID: 3127811141206857508}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &8540278660693088238 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 6768098356654833866, guid: c06fd40a388c3594a9d12d3710ab2925, type: 3}
+--- !u!114 &8802206819712422597 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3364312211561511455, guid: c06fd40a388c3594a9d12d3710ab2925, type: 3}
   m_PrefabInstance: {fileID: 3127811141206857508}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4efc8348c2646eb458763c0b069115c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4289769212279029121
 PrefabInstance:
   m_ObjectHideFlags: 0

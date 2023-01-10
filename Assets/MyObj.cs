@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System;
 
 
 public class MyObj : MonoBehaviour {
@@ -148,7 +149,7 @@ public class MyObj : MonoBehaviour {
     public static bool isChekingAuth { get; private set; }
 
     void Start() {
-        
+
     }
 
     void Update() {

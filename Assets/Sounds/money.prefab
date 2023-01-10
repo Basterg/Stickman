@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6534915749919903323}
   - component: {fileID: 564223640788709434}
+  - component: {fileID: 4806370223904603770}
   m_Layer: 0
   m_Name: money
   m_TagString: Untagged
@@ -127,3 +128,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4806370223904603770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5320860686135613406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4efc8348c2646eb458763c0b069115c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioToPlay: {fileID: 564223640788709434}

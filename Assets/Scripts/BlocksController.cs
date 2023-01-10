@@ -12,8 +12,9 @@ public class BlocksController : MonoBehaviour {
     [SerializeField] GameObject innerSmokeBigParticleSystem;
     [SerializeField] GameObject smokeSmallParticleSystem;
     [SerializeField] GameObject destroyingPointsParticleSystem;
-    [SerializeField] AudioSource breakAudio;
-    [SerializeField] AudioSource hitAudio;
+
+    [SerializeField] AudioContainer breakAudioContainer;
+    [SerializeField] AudioContainer hitAudioContainer;
 
     public enum BlockType {
         Wood,
@@ -31,10 +32,11 @@ public class BlocksController : MonoBehaviour {
 
     void Awake() {
         blockCollider = gameObject.GetComponent<Collider2D>();
+        startBlockHP = blockHP;
     }
 
     void Start() {
-        startBlockHP = blockHP;
+        
     }
     
     void Update() {
@@ -65,8 +67,8 @@ public class BlocksController : MonoBehaviour {
                 }
             } else {
                 if (collision.relativeVelocity.magnitude > 10) {
-                    if (hitAudio != null) {
-                        hitAudio.Play();
+                    if (hitAudioContainer != null) {
+                        hitAudioContainer.PlayAudio();
                     }
                 }
             }
@@ -100,8 +102,9 @@ public class BlocksController : MonoBehaviour {
     }
 
     void StartDestroyBlockActions() {
-        if (breakAudio != null) {
-            breakAudio.Play();
+        if (breakAudioContainer != null) {
+            breakAudioContainer.PlayAudioAndDestroyContainerAfter();
+            hitAudioContainer.DestroyAudioContainer();
         }
         if (blockDestroyingParticleSystem != null) {
             Instantiate(blockDestroyingParticleSystem, transform.position, Quaternion.identity);
